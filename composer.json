@@ -1,0 +1,27 @@
+{
+    "name": "maxpro/blog",
+    "authors": [
+        {
+            "name": "Md Sahidur Rahman",
+            "email": "sohidurr49@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Maxpro\\Blog\\": ""
+        }
+    },
+    "extra": {
+    	"laravel": {
+            "providers": [
+                "Maxpro\\Blog\\Providers\\BlogServiceProvider",
+                "Maxpro\\Blog\\Providers\\RouteServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
