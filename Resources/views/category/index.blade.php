@@ -1,9 +1,9 @@
-@extends(config('role.admin_tmp'),[
-	'title' => 'AdminLTE 3 | Companies',
-	'content_header' => 'Companies',
+@extends(config('blog.admin_tmp'),[
+	'title' => 'AdminLTE 3 | Categories',
+	'content_header' => 'Categories',
 	'breadcrumb' => [
 			'items' => "<a href='".Url('admin/')."'>Home</a>",
-			'active' => "Companies",
+			'active' => "Categories",
 		],
 	])
 @section('content')
@@ -17,7 +17,7 @@
 	        	<div class="col-md-10"></div>
 	        	<div class="col-md-2">
 	        		<div class="text-right">	        			
-	        			<a href="{{Route('company_create')}}">Create</a>
+	        			<a href="{{Route('category_create')}}">Create</a>
 	        		</div>
 	        	</div>
         	</div>
@@ -28,12 +28,10 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>Company Name</th>
+              <th>Title</th>
               <th>Description</th>
-              <th>Address</th>
-              <th>Phone</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Manage</th>
             </tr>
             </thead>
             <tbody>
@@ -42,24 +40,22 @@
             		@foreach($details as $key => $value)
             			<tr>
             			  <td>{{$i++}}</td>
-            			  <td>{!! $value->name !!}</td>
+            			  <td>{!! $value->title !!}</td>
                     <td>{!! $value->description !!}</td>
-                    <td>{!! $value->address !!}</td>
-                    <td>{!! $value->phone !!}</td>
-            			  <td>{!! $value->is_active !!}</td>
+            			  <td>{!! $value->is_active_html !!}</td>
             			  <td>
-            			  	<a href="{{route('company_create_edit',$value->id_companies)}}" class="btn btn-success">{{__('edit')}}</a>
+            			  	<a href="{{route('category_edit',$value->id)}}" class="btn btn-success">{{__('edit')}}</a>
 
                       <a href="#" class="btn btn-danger"
                          onclick="event.preventDefault();
-                                       document.getElementById('delete-form').submit();">
+                                       document.getElementById('delete-form-{{$key}}').submit();">
                           {{ __('Delete') }}
                       </a>
 
-                      <form id="delete-form" action="{{route('company_distroy',$value->id_companies)}}" method="POST" style="display: none;">
+                      <form id="delete-form-{{$key}}" action="{{route('category_distroy',$value->id)}}" method="POST" style="display: none;">
+                          @csrf
                           @method('delete')
                       </form>
-
             			  </td>
             			</tr>
             		@endforeach

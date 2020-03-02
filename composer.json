@@ -9,14 +9,14 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Maxpro\\Blog\\": ""
+            "Sohidur\\Blog\\": ""
         }
     },
     "extra": {
     	"laravel": {
             "providers": [
-                "Maxpro\\Blog\\Providers\\BlogServiceProvider",
-                "Maxpro\\Blog\\Providers\\RouteServiceProvider"
+                "Sohidur\\Blog\\Providers\\BlogServiceProvider",
+                "Sohidur\\Blog\\Providers\\RouteServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Maxpro\Blog\Providers;
+namespace Sohidur\Blog\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Maxpro\Blog\Http\Controllers';
+    protected $namespace = 'Sohidur\Blog\Http\Controllers';
 
     /**
      * The path to the "home" route for your application.
@@ -58,7 +58,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
              ->namespace($this->namespace)
-             ->prefix('blog')
              ->group(__DIR__.'/../Routes/web.php');
     }
 

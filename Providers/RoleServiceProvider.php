@@ -1,6 +1,6 @@
 <?php
 
-namespace Maxpro\Blog\Providers;
+namespace Sohidur\Blog\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
