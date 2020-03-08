@@ -5,10 +5,13 @@ namespace Sohidur\Blog\Http\Controllers;
 use App\Http\Controllers\Controller as BaseController;
 use Sohidur\Blog\Http\Model\BlogCategory;
 use Illuminate\Http\Request;
+use Validator;
 
 class CategoryController extends BaseController
 {
 	protected $model;
+
+	protected $error;
 
 	protected $viewPath = "blog::category.";
 
@@ -27,9 +30,27 @@ class CategoryController extends BaseController
 	}
 
 	public function store(Request $request) {
-		$this->validate($request, [
+		// $this->validate($request, [
+		// 	'title' => 'required|unique:'.BlogCategory::class,
+		// ]);
+
+		$validator = Validator::make($request->all(),[
 			'title' => 'required|unique:'.BlogCategory::class,
 		]);
+
+		if($validator->fails())
+        {
+        	if($request->ajax())
+        	{
+        		return response()->json([
+        			'flug' => false,
+        			'msg' => 'Validation error',
+        			'errors' => $validator->messages()
+        		]);
+        	}
+            
+            return redirect()->back()->withInput($request->input())->withErrors($validator->messages());
+        }
 
 		$this->model->fill($request->all());
 		$this->model->save();
@@ -37,6 +58,16 @@ class CategoryController extends BaseController
 		if($request->previous_url) {
 			return redirect($request->previous_url);
 		}
+
+		if($request->ajax())
+		{
+			return response()->json([
+        			'flug' => true,
+        			'msg' => 'Successfuly create',
+        			'data' => $this->model
+        		]);
+		}
+
 		return redirect()->route('category_index')->withSuccess("Successfuly created new Category");
 	}
 
@@ -65,5 +96,25 @@ class CategoryController extends BaseController
 		$findData = $this->model->findById($id);
 		$findData->delete();
 		return redirect()->route('category_index')->withSuccess("Successfuly Deleted Category.");
+	}
+
+	public function active(Request $request, $id)
+	{
+		$request = [];
+		$findData = $this->model->find($id);
+		$request['is_active'] = $findData->is_active ? 'off' : 'on';
+		$findData->fill($request);
+		$findData->update();
+
+		if(request()->ajax())
+		{
+			return response()->json([
+				'flug' => true,
+				'message' => "Successfuly status update",
+				'data' => [],
+			]);
+		}
+
+		return redirect()->back()->withSuccess('Successfuly status update');
 	}
 }

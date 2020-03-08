@@ -37,6 +37,11 @@ class PostController extends BaseController
 		$this->model->fill($request);
 		$this->model->save();
 
+		if($request->ajax())
+		{
+			return response()->json($this->model);
+		}
+		
 		return redirect()->route('post_index')->withSuccess("Successfuly created new post");
 	}
 
@@ -69,5 +74,45 @@ class PostController extends BaseController
 		$findData = $this->model->findById($id);
 		$findData->delete();
 		return redirect()->route('post_index')->withSuccess("Successfuly Deleted post.");
+	}
+
+	public function active(Request $request, $id)
+	{
+		$request = [];
+		$findData = $this->model->find($id);
+		$request['is_active'] = $findData->is_active ? 'off' : 'on';
+		$findData->fill($request);
+		$findData->update();
+
+		if(request()->ajax())
+		{
+			return response()->json([
+				'flug' => true,
+				'message' => "Successfuly status update",
+				'data' => [],
+			]);
+		}
+
+		return redirect()->back()->withSuccess('Successfuly status update');
+	}
+
+	public function disabled(Request $request, $id)
+	{	
+		$request = [];
+		$findData = $this->model->find($id);
+		$request['disabled'] = $findData->disabled ? 'off' : 'on';
+		$findData->fill($request);
+		$findData->update();
+
+		if(request()->ajax())
+		{
+			return response()->json([
+				'flug' => true,
+				'message' => "Successfuly status update",
+				'data' => [],
+			]);
+		}
+
+		return redirect()->back()->withSuccess('Successfuly status update');
 	}
 }

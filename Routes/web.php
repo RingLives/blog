@@ -88,6 +88,30 @@ Route::delete('/post/distroy/{id}', [
     'wrap_group' => 'Post',
     'wrap_group_level' => 'Posts',
 ]);
+Route::get('/post/disabled/{id?}', [
+    'as' => 'post_disabled',
+    'uses' => 'PostController@disabled',
+    'parent' => 'blog_parent',
+    'name' => 'Post disabled',
+    'icon' => '',
+    'description' => 'Post disabled',
+    'is_active' => 1,
+    'order_id' => 0,
+    'wrap_group' => 'Post',
+    'wrap_group_level' => 'Posts',
+]);
+Route::get('/post/status/{id?}', [
+    'as' => 'post_status',
+    'uses' => 'PostController@active',
+    'parent' => 'blog_parent',
+    'name' => 'Post status',
+    'icon' => '',
+    'description' => 'Post status',
+    'is_active' => 1,
+    'order_id' => 0,
+    'wrap_group' => 'Post',
+    'wrap_group_level' => 'Posts',
+]);
 
 	/*******************************************************************
 	 *	Category Routes
@@ -161,6 +185,19 @@ Route::delete('/category/distroy/{id}', [
     'name' => 'Category Delete',
     'icon' => '',
     'description' => 'Category Delete',
+    'is_active' => 1,
+    'order_id' => 0,
+    'wrap_group' => 'Category',
+    'wrap_group_level' => 'Categories',
+]);
+
+Route::get('/category/status/{id?}', [
+    'as' => 'category_status',
+    'uses' => 'CategoryController@active',
+    'parent' => 'blog_parent',
+    'name' => 'Category Status',
+    'icon' => '',
+    'description' => 'Category Status',
     'is_active' => 1,
     'order_id' => 0,
     'wrap_group' => 'Category',

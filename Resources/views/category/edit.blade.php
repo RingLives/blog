@@ -1,4 +1,4 @@
-@extends(config('role.admin_tmp'),[
+@extends(config('blog.admin_tmp'),[
 	'title' => 'AdminLTE 3 | Category Edit Page',
 	'content_header' => 'Category Edit Page',
 	'breadcrumb' => [

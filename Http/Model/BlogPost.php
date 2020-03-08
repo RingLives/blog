@@ -19,9 +19,9 @@ class BlogPost extends Model
     public static function list($paginate = null) 
     {
     	if(is_null($paginate)) {
-    		return static::with('category')->orderBy('updated_at', 'desc')->get();
+    		return static::with('category')->orderBy('created_at', 'desc')->get();
     	}
-    	return static::with('category')->orderBy('updated_at', 'desc')->paginate($paginate);
+    	return static::with('category')->orderBy('created_at', 'desc')->paginate($paginate);
     }
     public static function findById($id) 
     {
@@ -59,7 +59,7 @@ class BlogPost extends Model
      */
     public function setDisabledAttribute($value)
     {
-        $this->attributes['disabled'] = $value == 'on' ? 1 : 0;
+        $this->attributes['disabled'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post User id.
@@ -69,7 +69,7 @@ class BlogPost extends Model
      */
     public function setIsActiveAttribute($value)
     { 
-        $this->attributes['is_active'] = $value == 'on' ? 1 : 0;
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post slug.
@@ -101,7 +101,7 @@ class BlogPost extends Model
             return $value;
         // }
         
-        return Carbon::parse($value)->format('d-m-Y');
+        // return Carbon::parse($value)->format('d-m-Y');
     }
     /**
      * Set the post User id.
@@ -122,8 +122,10 @@ class BlogPost extends Model
                     data-height='20'
                     data-onstyle='".config('blog.button.on')."'
                     data-offstyle='".config('blog.button.off')."'
+                    data-action='onchange'
+                    data-target='".Route('post_disabled').'/'.$this->id."'
                     name='disabled'
-                    id='disabled-list'
+                    id='disabled_".$this->id."'
                     data-style='radius'
                 />";
     }
@@ -146,8 +148,10 @@ class BlogPost extends Model
                     data-height='20'
                     data-onstyle='".config('blog.button.on')."'
                     data-offstyle='".config('blog.button.off')."'
+                    data-action='onchange'
+                    data-target='".Route('post_status').'/'.$this->id."'
                     name='is_active'
-                    id='is_active-list'
+                    id='is_active_".$this->id."'
                     data-style='radius'
                 />";
     }

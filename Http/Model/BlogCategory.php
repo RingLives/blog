@@ -11,19 +11,26 @@ class BlogCategory extends Model
 
     protected $fillable = ['user_id', 'parent_id', 'type', 'title', 'slug', 'description', 'short_description', 'is_active'];
 
-    public function scopeActive($query) {
+    public function scopeActive($query)
+    {
     	$query->where('is_active', true);
     }    
-    public static function list($paginate = null) {
+
+    public static function list($paginate = null)
+    {
     	if(is_null($paginate)) {
-    		return static::orderBy('updated_at', 'desc')->get();
+    		return static::orderBy('created_at', 'desc')->get();
     	}
-    	return static::orderBy('updated_at', 'desc')->paginate($paginate);
+    	return static::orderBy('created_at', 'desc')->paginate($paginate);
     }
-    public static function findById($id) {
+
+    public static function findById($id)
+    {
         return static::find($id);
     }
-    public static function getCategory() {
+
+    public static function getCategory()
+    {
         return static::active()->orderBy('title','asc')->get();
     }
     /**
@@ -53,8 +60,8 @@ class BlogCategory extends Model
      * @return void
      */
     public function setIsActiveAttribute($value)
-    { 
-        $this->attributes['is_active'] = ($value == 'on' || $value == 1) ? 1 : 0;
+    {
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post slug.
@@ -94,8 +101,10 @@ class BlogCategory extends Model
                     data-height='20'
                     data-onstyle='".config('blog.button.on')."'
                     data-offstyle='".config('blog.button.off')."'
+                    data-action='onchange'
+                    data-target='".Route('category_status').'/'.$this->id."'
                     name='is_active'
-                    id='is_active-list'
+                    id='is_active'
                     data-style='radius'
                 />";
     }

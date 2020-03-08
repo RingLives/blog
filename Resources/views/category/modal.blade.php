@@ -69,40 +69,105 @@
 			    </div>
 			    <div class="modal-footer justify-content-between">
 			      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			      	<button type="submit" class="btn btn-{{config('blog.button.save')}}" onclick="required()">{{__('blog::resource.button.save')}}</button>
+			      	<button 
+			      		type="submit"
+			      		class="btn btn-{{config('blog.button.save')}}" 
+			      		data-action="validate"
+			      		data-target="{{Route('category_create')}}"
+			      		data-prefix="cat-">
+			      		{{__('blog::resource.button.save')}}
+			      	</button>
 			    </div>
 			</form>
 	  	</div>
 	</div>
 </div>
 
-{{-- <script type="text/javascript">
-	function required() {
-		var count = 0;
-		var result = 0;
-		$('form .required').each(function(){
-			var _name = $(this).prop("name").split('[]').join("");
-			if(! $(this).val()) {
-				$(".span"+_name).remove();
-				var html = "<span class='help-block span"+_name+"'>";
-				    html += "<strong>";
-				    html += "The "+_name+" field is required.";
-				    html += "</strong>";
-				    html += "</span>";
-				$(this).parent().append(html);
+<script type="text/javascript">
 
-			}else{
-				$(this).parent().removeClass("has-error");
-		    	$(".span"+_name).remove();
-		    	result++
+	$(document).ready(function(){
+		var errors = [];
+		$("form").on('click', 'button, input[type=submit]', function(event) {
+			if('validate' === $(this).data('action'))
+			{
+				event.preventDefault();
+				var target = $(this).data('target');
+				var method = $(this).data('method') ? $(this).data('method') : 'POST';
+				var prefix = $(this).data('prefix');
+
+				$(this).closest("form").find('.help-block').remove();
+				var form = $(this).closest("form").serialize();
+
+				$.ajax({
+				    type: method,
+				    url: target,
+				    data: form,
+				    datatype: 'json',
+				    cache: false,
+				    async: false,
+				    success: function(myObj)
+				    {
+				    	if(! myObj.flug)
+				    	{
+				    		for (attribute in myObj.errors) {
+				    			var html = "<span class='help-block span_"+prefix+attribute+"'>";
+				    			    html += "<strong>";
+				    			    html += myObj.errors[attribute];
+				    			    html += "</strong>";
+				    			    html += "</span>";
+
+				    			    errors.push(".span_"+prefix+attribute);
+				    				$(".span_"+prefix+attribute).remove();
+				    				$('#'+prefix+attribute).parent().append(html);
+				    		}
+				    	}else{
+				    		for (error in errors)
+				    		{
+				    			$(errors[error]).remove();
+				    			errors.splice(error);
+				    		}
+				    	}
+				    },
+				    error: function(data)
+				    {
+				        console.log(data);
+				    }
+				});
+
+				if(typeof errors.length != 'undifined' && errors.length == 0)
+				{
+					location.reload();
+				}
 			}
+		})
+	});
 
-			count++;
-		});
-		if(count == result) {
-			return true;
-		}else{
-			event.preventDefault();
-		}
-	}
-</script> --}}
+	// var required = function () {
+	// 	var count = 0;
+	// 	var result = 0;
+	// 	$('form .required').each(function() {
+	// 		var _name = $(this).prop("name").split('[]').join("");
+	// 		if(! $(this).val()) {
+	// 			$(".span"+_name).remove();
+	// 			var html = "<span class='help-block span"+_name+"'>";
+	// 			    html += "<strong>";
+	// 			    html += "The "+_name+" field is required.";
+	// 			    html += "</strong>";
+	// 			    html += "</span>";
+	// 			$(this).parent().append(html);
+
+	// 		}else{
+	// 			$(this).parent().removeClass("has-error");
+	// 	    	$(".span"+_name).remove();
+	// 	    	result++
+	// 		}
+
+	// 		count++;
+	// 	});
+	// 	if(count == result) {
+	// 		return true;
+	// 	}else{
+	// 		event.preventDefault();
+	// 	}
+	// }
+</script>
