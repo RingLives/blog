@@ -7,8 +7,8 @@
 		],
 	])
 @section('content')
-  @include('role::messages.error')
-  @include('role::messages.success')
+  @include('blog::messages.error')
+  @include('blog::messages.success')
 	<div class="row">
     <div class="col-12">
       <div class="card">

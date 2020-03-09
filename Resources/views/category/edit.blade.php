@@ -11,8 +11,8 @@
 	])
 @section('content')
 	<div class="container-fluid">
-		@include('role::messages.error')
-		@include('role::messages.success')
+		@include('blog::messages.error')
+		@include('blog::messages.success')
 	 	<div class="row">
 	 		<div class="col-md-3"></div>
 			<div class="col-md-6">
