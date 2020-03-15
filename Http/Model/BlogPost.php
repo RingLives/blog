@@ -23,7 +23,11 @@ class BlogPost extends Model
     	}
     	return static::with('category')->orderBy('created_at', 'desc')->paginate($paginate);
     }
-    public static function findById($id) 
+    public static function active()
+    {
+        return static::active()->with('category')->orderBy('created_at', 'desc')->get();
+    } 
+    public static function findById($id)
     {
         return static::find($id);
     }
