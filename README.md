@@ -15,5 +15,5 @@ The package will automatically register a service provider and alias.
 
 ## Credits
 
-- [Md Sahidur Rahman](https://github.com/nwidart)
+- [Md Sahidur Rahman](https://github.com/RingLives)
 
