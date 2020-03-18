@@ -27,6 +27,10 @@ class BlogPost extends Model
     {
         return static::find($id);
     }
+    public static function getPosts()
+    {
+        return static::active()->with('category')->orderBy('created_at', 'desc')->get();
+    }
     public function category() 
     {
         return $this->hasOne(BlogCategory::class,'id','blog_category_id');
@@ -59,7 +63,7 @@ class BlogPost extends Model
      */
     public function setDisabledAttribute($value)
     {
-        $this->attributes['disabled'] = ($value == 'on') ? 1 : 0;
+        $this->attributes['disabled'] = ($value == 'on') ? 1 : $value;
     }
     /**
      * Set the post User id.
@@ -69,7 +73,7 @@ class BlogPost extends Model
      */
     public function setIsActiveAttribute($value)
     { 
-        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : $value;
     }
     /**
      * Set the post slug.

@@ -24,15 +24,19 @@ class BlogComment extends Model
     public static function findById($id) {
         return static::find($id);
     }
+    public static function getComments()
+    {
+        return static::active()->with('category')->orderBy('created_at', 'desc')->get();
+    }
     /**
      * Set the post User id.
      *
      * @param  string  $value
      * @return void
      */
-    public function setUserIdAttribute($value)
-    {
-        $this->attributes['user_id'] = $value ?? auth()->user()->id;
+    public function setIsActiveAttribute($value)
+    { 
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : $value;
     }
     /**
      * Set the post slug.
@@ -40,9 +44,17 @@ class BlogComment extends Model
      * @param  string  $value
      * @return void
      */
-    public function setSlugAttribute($value)
+    public function setTitleAttribute($value)
     {
-        $this->attributes['slug'] = str_replace(" ", "-", $value ?? $this->title);
+        $this->attributes['title'] = $value;
+
+        if(! $this->slug) {
+            $this->attributes['slug'] = strtolower(str_replace(" ", "-",  $value));
+        }
+
+        if(! $this->user_id) {
+            $this->attributes['user_id'] = auth()->user()->id ?? 0;
+        }
     }
     /**
      * The attributes that should be cast to native types.
