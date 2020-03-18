@@ -4,6 +4,7 @@ namespace Sohidur\Blog\Http\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Sohidur\Blog\Http\Model\BlogPost;
 
 class BlogCategory extends Model
 {
@@ -32,6 +33,10 @@ class BlogCategory extends Model
     public static function getCategory()
     {
         return static::active()->orderBy('title','asc')->get();
+    }
+
+    public function post(){
+        return $this->belongsToMany(BlogPost::class, 'blog_category_id', 'id');
     }
     /**
      * Set the post User id.
