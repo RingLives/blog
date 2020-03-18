@@ -37,12 +37,9 @@ class PostController extends BaseController
 		$this->model->fill($request);
 		$this->model->save();
 
-		if(method_exists($request, "ajax"))
+		if($request->ajax())
 		{
-			if($request->ajax())
-			{
-				return response()->json($this->model);
-			}
+			return response()->json($this->model);
 		}
 		
 		return redirect()->route('post_index')->withSuccess("Successfuly created new post");
@@ -87,16 +84,13 @@ class PostController extends BaseController
 		$findData->fill($request);
 		$findData->update();
 
-		if(method_exists($request, "ajax"))
+		if(request()->ajax())
 		{
-			if(request()->ajax())
-			{
-				return response()->json([
-					'flug' => true,
-					'message' => "Successfuly status update",
-					'data' => [],
-				]);
-			}
+			return response()->json([
+				'flug' => true,
+				'message' => "Successfuly status update",
+				'data' => [],
+			]);
 		}
 
 		return redirect()->back()->withSuccess('Successfuly status update');
