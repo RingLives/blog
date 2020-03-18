@@ -26,7 +26,7 @@ class BlogComment extends Model
     }
     public static function getComments()
     {
-        return static::active()->with('category')->orderBy('created_at', 'desc')->get();
+        return static::active()->orderBy('created_at', 'desc')->get();
     }
     /**
      * Set the post User id.
