@@ -36,7 +36,7 @@ class BlogComment extends Model
      */
     public function setIsActiveAttribute($value)
     { 
-        $this->attributes['is_active'] = ($value == 'on') ? 1 : $value;
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post slug.

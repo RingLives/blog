@@ -63,7 +63,7 @@ class BlogPost extends Model
      */
     public function setDisabledAttribute($value)
     {
-        $this->attributes['disabled'] = ($value == 'on') ? 1 : $value;
+        $this->attributes['disabled'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post User id.
@@ -73,7 +73,7 @@ class BlogPost extends Model
      */
     public function setIsActiveAttribute($value)
     { 
-        $this->attributes['is_active'] = ($value == 'on') ? 1 : $value;
+        $this->attributes['is_active'] = ($value == 'on') ? 1 : 0;
     }
     /**
      * Set the post slug.
